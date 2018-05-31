@@ -52,6 +52,8 @@ const startCards = (array) => {
         );
 }
 
+// .open for preview color and .show for reveal
+
 const cards = document.querySelectorAll('.card');
 // Event Listener for clicks on the deck
 document.querySelector('.deck').addEventListener('click', (e) => {
