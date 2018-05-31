@@ -25,6 +25,22 @@ function shuffle(array) {
     return array;
 }
 
+const tiles = [
+    'fa-diamond', 'fa-diamond', 
+    'fa-paper-plane-o', 'fa-paper-plane-o', 
+    'fa-anchor', 'fa-anchor', 
+    'fa-bolt', 'fa-bolt', 
+    'fa-leaf', 'fa-leaf', 
+    'fa-bicycle', 'fa-bicycle', 
+    'fa-bomb', 'fa-bomb',
+    'fa-cube', 'fa-cube'
+];
+
+// Grabs all of a particular element and removes them
+const removeAll = (element) => {
+    const target = document.querySelectorAll('.card');
+}
+
 const cards = document.querySelectorAll('.card');
 // Event Listener for clicks on the deck
 document.querySelector('.deck').addEventListener('click', (e) => {
