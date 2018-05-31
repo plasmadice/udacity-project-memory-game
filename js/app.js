@@ -37,8 +37,19 @@ const tiles = [
 ];
 
 // Grabs all of a particular element and removes them
-const removeAll = (element) => {
-    const target = document.querySelectorAll('.card');
+const startCards = (array) => {
+    // Clone given array
+    let matches = shuffle(array.slice(0));
+
+    // Select all cards
+    const cards = document.querySelectorAll('.card');
+
+
+    cards.
+        forEach(card => card
+            .firstElementChild
+            .className = `fa ${matches.pop()}`
+        );
 }
 
 const cards = document.querySelectorAll('.card');
