@@ -56,15 +56,19 @@ const startCards = (array) => {
 
 const cards = document.querySelectorAll('.card');
 // Event Listener for clicks on the deck
-document.querySelector('.deck').addEventListener('click', (e) => {
+document.querySelector('.deck').addEventListener('click', (event) => {
     // Only trigger from card clicks
-    if (e.target.classList.contains('card')) {
-        if (e.target.classList.contains('match')) {
+    if (event.target.classList.contains('card')) {
+        if (event.target.classList.contains('match')) {
             console.log('Already a match');
         } else {
-            e.target.classList.toggle('open');
-            e.target.classList.toggle('show');
-            console.log(e.target.classList.value);
+            event.target.classList.toggle('open');
+            event.target.classList.toggle('show');
+            console.log(event.target.classList.value);
+            console.log(event.target.firstElementChild.classList);
+            setTimeout(() =>
+                event.target.className = 'card', 
+                2500);
         }
     }
 });
