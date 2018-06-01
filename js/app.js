@@ -55,24 +55,6 @@ const startCards = (array) => {
 // .open for preview color and .show for reveal
 
 const cards = document.querySelectorAll('.card');
-// Event Listener for clicks on the deck
-// document.querySelector('.deck').addEventListener('click', (event) => {
-//     // Only trigger from card clicks
-//     if (event.target.classList.contains('card')) {
-//         if (event.target.classList.contains('match')) {
-//             console.log('Already a match');
-//         } else {
-//             event.target.classList.toggle('open');
-//             event.target.classList.toggle('show');
-//             console.log(event.target.classList.value);
-//             console.log(event.target.firstElementChild.classList);
-//             // card rollover to neutral
-//             setTimeout(() =>
-//                 event.target.className = 'card', 
-//                 2500);
-//         }
-//     }
-// });
 
 document.querySelector('.deck').addEventListener('click', (event) => {
 
@@ -91,55 +73,37 @@ document.querySelector('.deck').addEventListener('click', (event) => {
             // flip cards
             event.target.classList.toggle('open');
             event.target.classList.toggle('show');
+            // prevents unconfirmed matches from being confirmed as matches
 
             if (matchCheck.length === 2) {
 
-                const matches = document.querySelectorAll('.open');
+                const openCards = document.querySelectorAll('.open');
 
                 if (matchCheck[0] === matchCheck[1]) {
                     console.log('We have a match!');
                     // locks in matches
-                    matches.forEach(match => match.className = 'card match');
+                    openCards.forEach(match => {
+                        if (match.classList.contains('fail')) {
+                            return match.className = 'card';
+                        } else {
+                            return match.className = 'card match'
+                        }
+                    });
                     // reset match checker
                     matchCheck = [];
                 } else {
+
+                    openCards.forEach(match => match.className = 'card open fail');
                     // reset match checker
                     matchCheck = [];
-                    console.log('Failure.');
-                    matches.forEach(failedMatch => failedMatch.className = 'card');
+                    // flip over failed match
+                    setTimeout(() => {
+                        return openCards.forEach(card => card.className = 'card');
+                    }, 1000)
                 }
             }
         }
     }
-
-    // if (event.target.classList.contains('card')) {
-    //     // ignore matches
-    //     if (event.target.classList.contains('match')) {
-    //         console.log('Already a match');
-    //     } else {
-    //         event.target.classList.toggle('open');
-    //         event.target.classList.toggle('show');
-
-    //         // Change to push string instead of array
-    //         matchCheck.push(event.target.firstElementChild.className
-    //             .split(' ')
-    //             .filter(word => word != 'fa')
-    //             .toString()
-    //         )
-    //         console.log(event.target.classList.value);
-    //         console.log(event.target.firstElementChild.classList);
-    //         console.log(matchCheck, (matchCheck[0] === matchCheck[1]));
-    //         if (matchCheck.length === 2) {
-    //             if (matchCheck[0] == matchCheck[1]) {
-    //                 console.log('Just got a match!');
-    //             }
-    //         }
-    //         // card rollover to neutral
-    //         // setTimeout(() =>
-    //         //     event.target.className = 'card', 
-    //         //     2500);
-    //     }
-    // }
 });
 
 // doesn't work
