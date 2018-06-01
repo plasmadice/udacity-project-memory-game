@@ -35,6 +35,8 @@ const tiles = [
     'fa-bomb', 'fa-bomb',
     'fa-cube', 'fa-cube'
 ];
+let matchCheck = [];
+let moves = 0;
 
 // Grabs all of a particular element and removes them
 const startCards = (array) => {
@@ -78,6 +80,10 @@ document.querySelector('.deck').addEventListener('click', (event) => {
             if (matchCheck.length === 2) {
 
                 const openCards = document.querySelectorAll('.open');
+                
+                // increment moves
+                moves += 1;
+                document.querySelector('.moves').innerText = moves;
 
                 if (matchCheck[0] === matchCheck[1]) {
                     console.log('We have a match!');
@@ -105,14 +111,6 @@ document.querySelector('.deck').addEventListener('click', (event) => {
         }
     }
 });
-
-// doesn't work
-let matchCheck = [];
-if (matchCheck.length === 2) {
-    if (matchCheck[0] == matchCheck[1]) {
-        console.log('Just got a match!');
-    }
-}
 
 
 /*
