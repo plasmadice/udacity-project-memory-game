@@ -74,29 +74,81 @@ const cards = document.querySelectorAll('.card');
 //     }
 // });
 
-let matchCheck = [];
 document.querySelector('.deck').addEventListener('click', (event) => {
-    // Only trigger from card clicks
+
     if (event.target.classList.contains('card')) {
-        // ignore matches
         if (event.target.classList.contains('match')) {
-            console.log('Already a match');
+            // ignore previous matches
+            console.log('Already a match')
         } else {
-            event.target.classList.toggle('open');
-            event.target.classList.toggle('show');
-            matchCheck.push(event.target.firstElementChild.className
+            // Store potential matches
+            matchCheck
+                .push(event.target.firstElementChild.className
                 .split(' ')
                 .filter(word => word != 'fa')
-            )
-            console.log(event.target.classList.value);
-            console.log(event.target.firstElementChild.classList);
-            // card rollover to neutral
-            setTimeout(() =>
-                event.target.className = 'card', 
-                2500);
+                .toString()
+                )
+            // flip cards
+            event.target.classList.toggle('open');
+            event.target.classList.toggle('show');
+
+            if (matchCheck.length === 2) {
+
+                const matches = document.querySelectorAll('.open');
+
+                if (matchCheck[0] === matchCheck[1]) {
+                    console.log('We have a match!');
+                    // locks in matches
+                    matches.forEach(match => match.className = 'card match');
+                    // reset match checker
+                    matchCheck = [];
+                } else {
+                    // reset match checker
+                    matchCheck = [];
+                    console.log('Failure.');
+                    matches.forEach(failedMatch => failedMatch.className = 'card');
+                }
+            }
         }
     }
+
+    // if (event.target.classList.contains('card')) {
+    //     // ignore matches
+    //     if (event.target.classList.contains('match')) {
+    //         console.log('Already a match');
+    //     } else {
+    //         event.target.classList.toggle('open');
+    //         event.target.classList.toggle('show');
+
+    //         // Change to push string instead of array
+    //         matchCheck.push(event.target.firstElementChild.className
+    //             .split(' ')
+    //             .filter(word => word != 'fa')
+    //             .toString()
+    //         )
+    //         console.log(event.target.classList.value);
+    //         console.log(event.target.firstElementChild.classList);
+    //         console.log(matchCheck, (matchCheck[0] === matchCheck[1]));
+    //         if (matchCheck.length === 2) {
+    //             if (matchCheck[0] == matchCheck[1]) {
+    //                 console.log('Just got a match!');
+    //             }
+    //         }
+    //         // card rollover to neutral
+    //         // setTimeout(() =>
+    //         //     event.target.className = 'card', 
+    //         //     2500);
+    //     }
+    // }
 });
+
+// doesn't work
+let matchCheck = [];
+if (matchCheck.length === 2) {
+    if (matchCheck[0] == matchCheck[1]) {
+        console.log('Just got a match!');
+    }
+}
 
 
 /*
