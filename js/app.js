@@ -75,11 +75,13 @@ document.querySelector('.deck').addEventListener('click', (event) => {
             // flip cards
             event.target.classList.toggle('open');
             event.target.classList.toggle('show');
+            event.target.classList.toggle('animated');
+            event.target.classList.toggle('flipInY');
             // prevents unconfirmed matches from being confirmed as matches
 
             if (matchCheck.length === 2) {
 
-                const openCards = document.querySelectorAll('.open');
+                const openCards = document.querySelectorAll('.show');
                 
                 // increment moves
                 moves += 1;
@@ -92,14 +94,14 @@ document.querySelector('.deck').addEventListener('click', (event) => {
                         if (match.classList.contains('fail')) {
                             return match.className = 'card';
                         } else {
-                            return match.className = 'card match'
+                            return match.className = 'card open match animated tada'
                         }
                     });
                     // reset match checker
                     matchCheck = [];
                 } else {
 
-                    openCards.forEach(match => match.className = 'card open fail');
+                    openCards.forEach(match => match.className = 'card open fail animated shake');
                     // reset match checker
                     matchCheck = [];
                     // flip over failed match
