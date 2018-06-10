@@ -38,7 +38,7 @@ function shuffle(array) {
     return array;
 }
 
-// Grabs all of a particular element and removes them
+// randomizes cards at start and restart of game
 const randomize = (array) => {
     // Clone given array
     let matches = shuffle(array.slice(0));
@@ -54,8 +54,7 @@ const randomize = (array) => {
         );
 }
 
-// .open for preview color and .show for reveal
-
+// reveal and flip each card while adding the type of card to matchCheck array
 const flipCard = (event) => {
     // store potential matches
     matchCheck
@@ -72,16 +71,28 @@ const flipCard = (event) => {
     // prevents unconfirmed matches from being confirmed as matches
 }
 
-const matchSuccess = (openCards) => {
-    console.log('We have a match!');
+// matchSuccess and matchFail handle what occurs after a success or failure of a match
+const matchSuccess = (targets) => {
+    // reset match checker
+    matchCheck = [];
     // locks in matches
-    openCards.forEach(match => {
+    targets.forEach(match => {
         if (match.classList.contains('fail')) {
             return match.className = 'card';
         } else {
             return match.className = 'card open match animated tada'
         }
     });
+}
+
+const matchFail = (targets) => {
+    targets.forEach(match => match.className = 'card open fail animated shake');
+    // reset match checker
+    matchCheck = [];
+    // flip over failed match
+    setTimeout(() => {
+        return targets.forEach(card => card.className = 'card');
+    }, 1000)
 }
 
 const cards = document.querySelectorAll('.card');
@@ -94,7 +105,7 @@ document.querySelector('.deck').addEventListener('click', (event) => {
             flipCard(event);
 
             if (matchCheck.length === 2) {
-
+                // organize currently revealed cards and manipulate them using an if statement
                 const openCards = document.querySelectorAll('.show');
                 
                 // increment moves
@@ -104,17 +115,8 @@ document.querySelector('.deck').addEventListener('click', (event) => {
                 // on successful match
                 if (matchCheck[0] === matchCheck[1]) {
                     matchSuccess(openCards)
-                    // reset match checker
-                    matchCheck = [];
                 } else {
-
-                    openCards.forEach(match => match.className = 'card open fail animated shake');
-                    // reset match checker
-                    matchCheck = [];
-                    // flip over failed match
-                    setTimeout(() => {
-                        return openCards.forEach(card => card.className = 'card');
-                    }, 1000)
+                    matchFail(openCards);
                 }
             }
         }
