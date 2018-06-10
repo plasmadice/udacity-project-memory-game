@@ -11,6 +11,19 @@
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+const tiles = [
+    'fa-diamond', 'fa-diamond', 
+    'fa-paper-plane-o', 'fa-paper-plane-o', 
+    'fa-anchor', 'fa-anchor', 
+    'fa-bolt', 'fa-bolt', 
+    'fa-leaf', 'fa-leaf', 
+    'fa-bicycle', 'fa-bicycle', 
+    'fa-bomb', 'fa-bomb',
+    'fa-cube', 'fa-cube'
+];
+let matchCheck = [];
+let moves = 0;
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -25,21 +38,8 @@ function shuffle(array) {
     return array;
 }
 
-const tiles = [
-    'fa-diamond', 'fa-diamond', 
-    'fa-paper-plane-o', 'fa-paper-plane-o', 
-    'fa-anchor', 'fa-anchor', 
-    'fa-bolt', 'fa-bolt', 
-    'fa-leaf', 'fa-leaf', 
-    'fa-bicycle', 'fa-bicycle', 
-    'fa-bomb', 'fa-bomb',
-    'fa-cube', 'fa-cube'
-];
-let matchCheck = [];
-let moves = 0;
-
 // Grabs all of a particular element and removes them
-const startCards = (array) => {
+const randomize = (array) => {
     // Clone given array
     let matches = shuffle(array.slice(0));
 
@@ -56,28 +56,42 @@ const startCards = (array) => {
 
 // .open for preview color and .show for reveal
 
+const flipCard = (event) => {
+    // store potential matches
+    matchCheck
+    .push(event.target.firstElementChild.className
+    .split(' ')
+    .filter(word => word != 'fa')
+    .toString()
+    )
+    // flip cards
+    event.target.classList.toggle('open');
+    event.target.classList.toggle('show');
+    event.target.classList.toggle('animated');
+    event.target.classList.toggle('flipInY');
+    // prevents unconfirmed matches from being confirmed as matches
+}
+
+const matchSuccess = (openCards) => {
+    console.log('We have a match!');
+    // locks in matches
+    openCards.forEach(match => {
+        if (match.classList.contains('fail')) {
+            return match.className = 'card';
+        } else {
+            return match.className = 'card open match animated tada'
+        }
+    });
+}
+
 const cards = document.querySelectorAll('.card');
 
 document.querySelector('.deck').addEventListener('click', (event) => {
 
     if (event.target.classList.contains('card')) {
-        if (event.target.classList.contains('match')) {
-            // ignore previous matches
-            console.log('Already a match')
-        } else {
-            // Store potential matches
-            matchCheck
-                .push(event.target.firstElementChild.className
-                .split(' ')
-                .filter(word => word != 'fa')
-                .toString()
-                )
-            // flip cards
-            event.target.classList.toggle('open');
-            event.target.classList.toggle('show');
-            event.target.classList.toggle('animated');
-            event.target.classList.toggle('flipInY');
-            // prevents unconfirmed matches from being confirmed as matches
+        if (!event.target.classList.contains('match')) {
+            // trigger flip on clicked card and add it to matchCheck array
+            flipCard(event);
 
             if (matchCheck.length === 2) {
 
@@ -87,16 +101,9 @@ document.querySelector('.deck').addEventListener('click', (event) => {
                 moves += 1;
                 document.querySelector('.moves').innerText = moves;
 
+                // on successful match
                 if (matchCheck[0] === matchCheck[1]) {
-                    console.log('We have a match!');
-                    // locks in matches
-                    openCards.forEach(match => {
-                        if (match.classList.contains('fail')) {
-                            return match.className = 'card';
-                        } else {
-                            return match.className = 'card open match animated tada'
-                        }
-                    });
+                    matchSuccess(openCards)
                     // reset match checker
                     matchCheck = [];
                 } else {
