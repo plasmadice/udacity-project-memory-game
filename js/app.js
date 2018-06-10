@@ -27,6 +27,7 @@ let moves = 0;
 const restart = () => {
     moves = 0;
     matchCheck = [];
+    document.querySelector('.moves').innerText = moves;
     randomize(tiles);
 }
 
@@ -44,7 +45,7 @@ function shuffle(array) {
     return array;
 }
 
-// randomizes cards at start and restart of game
+// randomizes and resets cards at start and restart of game
 const randomize = (array) => {
     // Clone given array
     let matches = shuffle(array.slice(0));

@@ -15,3 +15,5 @@ CSS Animations source is [Animate.css.](https://daneden.github.io/animate.css/)
 -Star Rating
 -Timer
 -Move Counter
+
+add breakpoints for score panel to increase button size, etc
