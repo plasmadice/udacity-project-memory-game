@@ -24,6 +24,12 @@ const tiles = [
 let matchCheck = [];
 let moves = 0;
 
+const restart = () => {
+    moves = 0;
+    matchCheck = [];
+    randomize(tiles);
+}
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -52,6 +58,8 @@ const randomize = (array) => {
             .firstElementChild
             .className = `fa ${matches.pop()}`
         );
+
+    cards.forEach(card => card.className = 'card');
 }
 
 // reveal and flip each card while adding the type of card to matchCheck array
@@ -95,7 +103,10 @@ const matchFail = (targets) => {
     }, 1000)
 }
 
-const cards = document.querySelectorAll('.card');
+const moveCounter = () => {
+    moves += 1;
+    document.querySelector('.moves').innerText = moves;
+}
 
 document.querySelector('.deck').addEventListener('click', (event) => {
 
@@ -109,8 +120,7 @@ document.querySelector('.deck').addEventListener('click', (event) => {
                 const openCards = document.querySelectorAll('.show');
                 
                 // increment moves
-                moves += 1;
-                document.querySelector('.moves').innerText = moves;
+                moveCounter();
 
                 // on successful match
                 if (matchCheck[0] === matchCheck[1]) {
