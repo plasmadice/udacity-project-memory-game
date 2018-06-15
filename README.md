@@ -11,7 +11,6 @@ CSS Animations source is [Animate.css.](https://daneden.github.io/animate.css/)
 
 #### Remaining Features List
 -Congratulations Popup
--Restart Button
 -Star Rating
 -Timer
 -Move Counter

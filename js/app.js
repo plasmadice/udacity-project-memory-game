@@ -31,6 +31,15 @@ const restart = () => {
     randomize(tiles);
 }
 
+starScore = (moves) => {
+    
+    // wipes previous stars first
+    const element = document.querySelector('.stars');
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+}
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
