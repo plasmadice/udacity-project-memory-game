@@ -1,16 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
 const tiles = [
     'fa-diamond', 'fa-diamond', 
     'fa-paper-plane-o', 'fa-paper-plane-o', 
@@ -22,6 +9,7 @@ const tiles = [
     'fa-cube', 'fa-cube'
 ];
 let matchCheck = [];
+let matches = 0;
 let moves = 0;
 
 const restart = () => {
@@ -68,7 +56,6 @@ const randomize = (array) => {
     // Select all cards
     const cards = document.querySelectorAll('.card');
 
-
     cards.
         forEach(card => card
             .firstElementChild
@@ -99,6 +86,7 @@ const flipCard = (event) => {
 const matchSuccess = (targets) => {
     // reset match checker
     matchCheck = [];
+    matches += 1;
     // locks in matches
     targets.forEach(match => {
         if (match.classList.contains('fail')) {
@@ -107,6 +95,15 @@ const matchSuccess = (targets) => {
             return match.className = 'card open match animated tada'
         }
     });
+
+    if (matches === 8) {
+        finishGame();
+    }
+}
+
+// open modal if game is complete, will be updated to stop timer
+const finishGame = () => {
+    modal.open();
 }
 
 const matchFail = (targets) => {
