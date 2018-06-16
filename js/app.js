@@ -143,6 +143,33 @@ document.querySelector('.deck').addEventListener('click', (event) => {
     }
 });
 
+// tingle modal js
+var modal = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['overlay', 'button', 'escape'],
+    closeLabel: "Close",
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    onOpen: function() {
+        console.log('modal open');
+    },
+    onClose: function() {
+        console.log('modal closed');
+    },
+    beforeClose: function() {
+        // here's goes some logic
+        // e.g. save content before closing the modal
+        return true; // close the modal
+        return false; // nothing happens
+    }
+});
+modal.setContent('<h1>Congratulations!</h1>');
+modal.setFooterContent(`<h3>Score: Testing</h3>`)
+modal.addFooterBtn('Restart', 'tingle-btn tingle-btn--primary tingle-btn--pull-right', function() {
+    restart();
+    modal.close();
+});
+
 
 /*
  * set up the event listener for a card. If a card is clicked:

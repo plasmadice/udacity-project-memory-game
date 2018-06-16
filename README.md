@@ -8,6 +8,7 @@ This is a simple memory matching game created with HTML / CSS / Javascript for U
 
 ##### Sources
 CSS Animations source is [Animate.css.](https://daneden.github.io/animate.css/)
+Modal source is [tingle.js](https://robinparisi.github.io/tingle/)
 
 #### Remaining Features List
 -Congratulations Popup
