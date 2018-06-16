@@ -31,13 +31,19 @@ const restart = () => {
     randomize(tiles);
 }
 
-starScore = (moves) => {
+const starScore = (moves) => {
     
     // wipes previous stars first
     const element = document.querySelector('.stars');
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
+}
+
+const removeStar = () => {
+    const starContainer = document.querySelector('.stars');
+    const firstStar = starContainer.querySelector('li');
+    starContainer.removeChild(firstStar);
 }
 
 function shuffle(array) {
@@ -163,8 +169,11 @@ var modal = new tingle.modal({
         return false; // nothing happens
     }
 });
+
 modal.setContent('<h1>Congratulations!</h1>');
+
 modal.setFooterContent(`<h3>Score: Testing</h3>`)
+
 modal.addFooterBtn('Restart', 'tingle-btn tingle-btn--primary tingle-btn--pull-right', function() {
     restart();
     modal.close();
