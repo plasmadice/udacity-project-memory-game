@@ -11,6 +11,7 @@ CSS Animations source is [Animate.css.](https://daneden.github.io/animate.css/)
 Modal source is [tingle.js](https://robinparisi.github.io/tingle/)
 
 #### Remaining Features List
+// Add game start function, remove initial html labels
 -Congratulations Popup // modal added
 -Star Rating // removeStar() function added, implement with move counter
 -Timer // not yet created

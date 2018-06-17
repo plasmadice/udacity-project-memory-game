@@ -9,18 +9,25 @@ const tiles = [
     'fa-cube', 'fa-cube'
 ];
 let matchCheck = [];
-let matches = 0;
+let matchCount = 0;
 let moves = 0;
 
 const restart = () => {
     moves = 0;
+    matchCount = 0;
     matchCheck = [];
     document.querySelector('.moves').innerText = moves;
+    document.querySelector('.stars').outerHTML = `<ul class="stars">
+        <li><i class="fa fa-star"></i></li>
+        <li><i class="fa fa-star"></i></li>
+        <li><i class="fa fa-star"></i></li>
+        <li><i class="fa fa-star"></i></li>
+        <li><i class="fa fa-star"></i></li>
+    </ul>`
     randomize(tiles);
 }
 
 const starScore = (moves) => {
-    
     // wipes previous stars first
     const element = document.querySelector('.stars');
     while (element.firstChild) {
@@ -29,6 +36,9 @@ const starScore = (moves) => {
 }
 
 const removeStar = () => {
+    if (document.querySelector('.stars').childElementCount === 0) {
+        return null;
+    }
     const starContainer = document.querySelector('.stars');
     const firstStar = starContainer.querySelector('li');
     starContainer.removeChild(firstStar);
@@ -82,11 +92,50 @@ const flipCard = (event) => {
     // prevents unconfirmed matches from being confirmed as matches
 }
 
+// tingle modal js
+var modal = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['overlay', 'button', 'escape'],
+    closeLabel: "Close",
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    onOpen: function() {
+        console.log('modal open');
+    },
+    onClose: function() {
+        console.log('modal closed');
+    },
+    beforeClose: function() {
+        // here's goes some logic
+        // e.g. save content before closing the modal
+        return true; // close the modal
+        return false; // nothing happens
+    }
+});
+
+const modalContents = () => {
+    const scoreDisplay = () => {
+        return document.querySelector('.stars').childElementCount;
+    }
+
+    modal.setContent('<h1>Game Finished!</h1>');
+
+    modal.setFooterContent(`<h3>Score: 
+        ${scoreDisplay()}
+    /5</h3>`)
+
+    modal.addFooterBtn('Restart', 'tingle-btn tingle-btn--primary tingle-btn--pull-right', function() {
+        restart();
+        modal.close();
+    });
+}
+
 // matchSuccess and matchFail handle what occurs after a success or failure of a match
 const matchSuccess = (targets) => {
+    const finishGame = () => modal.open();
     // reset match checker
     matchCheck = [];
-    matches += 1;
+    matchCount += 1;
     // locks in matches
     targets.forEach(match => {
         if (match.classList.contains('fail')) {
@@ -96,14 +145,10 @@ const matchSuccess = (targets) => {
         }
     });
 
-    if (matches === 8) {
+    if (matchCount === 8) {
+        modalContents();
         finishGame();
     }
-}
-
-// open modal if game is complete, will be updated to stop timer
-const finishGame = () => {
-    modal.open();
 }
 
 const matchFail = (targets) => {
@@ -116,8 +161,17 @@ const matchFail = (targets) => {
     }, 1000)
 }
 
+// move logic, removes stars
+const moveLogic = () => {
+    if (moves >= 15 && moves % 5 === 0) {
+        removeStar();
+    }
+}
+
 const moveCounter = () => {
     moves += 1;
+    // remove stars based on number of moves;
+    moveLogic();
     document.querySelector('.moves').innerText = moves;
 }
 
@@ -144,36 +198,6 @@ document.querySelector('.deck').addEventListener('click', (event) => {
             }
         }
     }
-});
-
-// tingle modal js
-var modal = new tingle.modal({
-    footer: true,
-    stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
-    closeLabel: "Close",
-    cssClass: ['custom-class-1', 'custom-class-2'],
-    onOpen: function() {
-        console.log('modal open');
-    },
-    onClose: function() {
-        console.log('modal closed');
-    },
-    beforeClose: function() {
-        // here's goes some logic
-        // e.g. save content before closing the modal
-        return true; // close the modal
-        return false; // nothing happens
-    }
-});
-
-modal.setContent('<h1>Congratulations!</h1>');
-
-modal.setFooterContent(`<h3>Score: Testing</h3>`)
-
-modal.addFooterBtn('Restart', 'tingle-btn tingle-btn--primary tingle-btn--pull-right', function() {
-    restart();
-    modal.close();
 });
 
 
