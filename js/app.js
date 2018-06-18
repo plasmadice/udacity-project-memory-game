@@ -115,6 +115,7 @@ var modal = new tingle.modal({
     }
 });
 
+// Updates information in modal
 const modalContents = () => {
     const scoreDisplay = () => {
         return document.querySelector('.stars').childElementCount;
