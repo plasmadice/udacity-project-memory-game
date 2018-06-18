@@ -13,6 +13,8 @@ let matchCount = 0;
 let moves = 0;
 
 const restart = () => {
+    stopWatch('initialize');
+    stopWatch('reset');
     moves = 0;
     matchCount = 0;
     matchCheck = [];
@@ -117,12 +119,18 @@ const modalContents = () => {
     const scoreDisplay = () => {
         return document.querySelector('.stars').childElementCount;
     }
+    
+    const timerDisplay = () => {
+        return document.querySelector('#timer').innerText;
+    }
 
     modal.setContent('<h1>Game Finished!</h1>');
 
-    modal.setFooterContent(`<h3>Score: 
-        ${scoreDisplay()}
-    /5</h3>`)
+    modal.setFooterContent(`<h3>
+        Score: ${scoreDisplay()}/5
+        <br>
+        Duration: ${timerDisplay()}
+    </h3>`)
 
     modal.addFooterBtn('Restart', 'tingle-btn tingle-btn--primary tingle-btn--pull-right', function() {
         restart();
@@ -132,7 +140,10 @@ const modalContents = () => {
 
 // matchSuccess and matchFail handle what occurs after a success or failure of a match
 const matchSuccess = (targets) => {
-    const finishGame = () => modal.open();
+    const finishGame = () => {
+        stopWatch('stop');
+        modal.open();
+    }
     // reset match checker
     matchCheck = [];
     matchCount += 1;
@@ -179,6 +190,11 @@ document.querySelector('.deck').addEventListener('click', (event) => {
 
     if (event.target.classList.contains('card')) {
         if (!event.target.classList.contains('match')) {
+
+            if (moves === 0 && matchCheck.length === 0) {
+                stopWatch('start');
+            }
+
             // trigger flip on clicked card and add it to matchCheck array
             flipCard(event);
 
@@ -199,6 +215,21 @@ document.querySelector('.deck').addEventListener('click', (event) => {
         }
     }
 });
+
+document.querySelector('.fa-repeat').addEventListener('click', restart)
+
+// stopwatch courtesty of https://www.cssscript.com/lightweight-javascript-timer-library-timer-js/
+const stopWatch = (command) => {
+    if (command === 'initialize') {
+        Timer.init('timer');
+    } else if (command === 'start') {
+        Timer.start();
+    }else if (command === 'stop') {
+        Timer.stop();
+    } else if (command === 'reset') {
+        Timer.reset();
+    }
+}
 
 
 /*
