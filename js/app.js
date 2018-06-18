@@ -9,13 +9,17 @@ const tiles = [
     'fa-cube', 'fa-cube'
 ];
 let matchCheck = [];
+// cardValue prevents the same card being added to matchCheck twice
+let cardValue = [];
 let matchCount = 0;
 let moves = 0;
+let firstMove = true;
 
 const restart = () => {
     stopWatch('initialize');
     stopWatch('reset');
     moves = 0;
+    firstMove = true;
     matchCount = 0;
     matchCheck = [];
     document.querySelector('.moves').innerText = moves;
@@ -81,11 +85,15 @@ const randomize = (array) => {
 const flipCard = (event) => {
     // store potential matches
     matchCheck
-    .push(event.target.firstElementChild.className
-    .split(' ')
-    .filter(word => word != 'fa')
-    .toString()
-    )
+        .push(event.target.firstElementChild.className
+        .split(' ')
+        .filter(word => word != 'fa')
+        .toString()
+        )
+
+    // Adds value of flipped card to cardValue
+    cardValue.push(event.target.value);
+
     // flip cards
     event.target.classList.toggle('open');
     event.target.classList.toggle('show');
@@ -147,6 +155,7 @@ const matchSuccess = (targets) => {
     }
     // reset match checker
     matchCheck = [];
+    cardValue = [];
     matchCount += 1;
     // locks in matches
     targets.forEach(match => {
@@ -167,6 +176,7 @@ const matchFail = (targets) => {
     targets.forEach(match => match.className = 'card open fail animated shake');
     // reset match checker
     matchCheck = [];
+    cardValue = [];
     // flip over failed match
     setTimeout(() => {
         return targets.forEach(card => card.className = 'card');
@@ -182,6 +192,7 @@ const moveLogic = () => {
 
 const moveCounter = () => {
     moves += 1;
+
     // remove stars based on number of moves;
     moveLogic();
     document.querySelector('.moves').innerText = moves;
@@ -192,7 +203,10 @@ document.querySelector('.deck').addEventListener('click', (event) => {
     if (event.target.classList.contains('card')) {
         if (!event.target.classList.contains('match')) {
 
-            if (moves === 0 && matchCheck.length === 0) {
+            if (moves === 0 && matchCheck.length === 0 && firstMove === true) {
+                if (firstMove === true) {
+                    firstMove = false;
+                }
                 stopWatch('start');
             }
 
@@ -203,14 +217,19 @@ document.querySelector('.deck').addEventListener('click', (event) => {
                 // organize currently revealed cards and manipulate them using an if statement
                 const openCards = document.querySelectorAll('.show');
                 
-                // increment moves
-                moveCounter();
+                if (cardValue[0] === event.target.value) {
+                    matchCheck = [];
+                    cardValue = [];
+                }
+                
 
                 // on successful match
-                if (matchCheck[0] === matchCheck[1]) {
+                if (matchCheck[0] === matchCheck[1] && cardValue[0] !== cardValue[1]) {
                     matchSuccess(openCards)
-                } else {
+                    moveCounter();
+                } else if (cardValue[0] !== cardValue[1]) {
                     matchFail(openCards);
+                    moveCounter();
                 }
             }
         }
