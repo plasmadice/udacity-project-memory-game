@@ -12,9 +12,4 @@ Modal from [tingle.js](https://robinparisi.github.io/tingle/)
 Simple Pure Javscript stopwatch from [CSSScript.com](https://www.cssscript.com/lightweight-javascript-timer-library-timer-js/)
 
 #### Remaining Features List
-// Add game start function, remove initial html labels
--Congratulations Popup // modal added
--Star Rating // removeStar() function added, implement with move counter
--Timer // not yet created
-
 add breakpoints for score panel to increase score panel size, etc

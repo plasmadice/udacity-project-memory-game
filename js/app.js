@@ -38,7 +38,7 @@ const starScore = (moves) => {
 }
 
 const removeStar = () => {
-    if (document.querySelector('.stars').childElementCount === 0) {
+    if (document.querySelector('.stars').childElementCount === 1) {
         return null;
     }
     const starContainer = document.querySelector('.stars');
