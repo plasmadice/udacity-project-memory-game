@@ -127,6 +127,7 @@ h1 {
 
 .modal-stars {
     display: inline-block;
+    padding: 0;
 }
 
 .modal-stars li {
@@ -134,6 +135,10 @@ h1 {
     display: inline-block;
     font-size: 5em;
     color: #ffdf00;
+}
+
+.modal-finish-container {
+    text-align: center;
 }
 
 /* CSS animations from https://daneden.github.io/animate.css/ */

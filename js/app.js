@@ -137,7 +137,7 @@ const modalContents = () => {
         return document.querySelector('#timer').innerText;
     }
 
-    modal.setContent(`<div>
+    modal.setContent(`<div class='modal-finish-container'>
         <h1>Game Finished!</h1>
         <ul class='modal-stars'>
             ${currentStars()}
