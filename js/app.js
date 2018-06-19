@@ -128,12 +128,21 @@ const modalContents = () => {
     const scoreDisplay = () => {
         return document.querySelector('.stars').childElementCount;
     }
+
+    const currentStars = () => {
+        return document.querySelector('.stars').innerHTML.trim();
+    }
     
     const timerDisplay = () => {
         return document.querySelector('#timer').innerText;
     }
 
-    modal.setContent('<h1>Game Finished!</h1>');
+    modal.setContent(`<div>
+        <h1>Game Finished!</h1>
+        <ul class='modal-stars'>
+            ${currentStars()}
+        </ul>
+    </div>`);
 
     modal.setFooterContent(`<h3>
         Score: ${scoreDisplay()}/5
@@ -159,11 +168,7 @@ const matchSuccess = (targets) => {
     matchCount += 1;
     // locks in matches
     targets.forEach(match => {
-        if (match.classList.contains('fail')) {
-            return match.className = 'card';
-        } else {
-            return match.className = 'card open match animated tada'
-        }
+        return match.className = 'card open match animated tada'
     });
 
     if (matchCount === 8) {
